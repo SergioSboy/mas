@@ -2,10 +2,10 @@
 
 Compose использует `postgres:17-alpine`. На новом томе сначала выполняется `01_roles.sql`, затем `02_seed.sql`. Первый скрипт создаёт отдельную роль чтения. Второй загружает ту же учебную фикстуру, которую использует `salesbench/data.py` в тестах.
 
-Seed можно пересоздать после изменения фикстуры, из активированного окружения:
+Seed можно пересоздать после изменения фикстуры, через контейнер приложения:
 
 ```bash
-python -c "from pathlib import Path; from salesbench.data import bootstrap_sql; Path('db/02_seed.sql').write_text(bootstrap_sql(),encoding='utf-8')"
+docker compose run --rm --no-deps --entrypoint python app -c "from salesbench.data import bootstrap_sql; print(bootstrap_sql(), end='')" > db/02_seed.sql
 ```
 
 Это меняет только SQL-файл, не содержимое уже работающей базы. Не используйте эти скрипты в рабочей базе с чужими данными. Пароли здесь открытые учебные. Доступ с хоста ограничен `127.0.0.1:55432`.

@@ -11,9 +11,37 @@ services:
       - salesbench_pgdata:/var/lib/postgresql/data
       - ./db:/docker-entrypoint-initdb.d:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U salesbench_owner -d salesbench"]
+      # TCP becomes available after the initialization scripts finish.
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -U salesbench_owner -d salesbench"]
       interval: 2s
       timeout: 3s
       retries: 30
+      start_period: 10s
+
+  app: &app
+    build: .
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      DATABASE_URL: postgresql://salesbench_reader:demo_reader@db:5432/salesbench
+      OPENAI_API_KEY: ${OPENAI_API_KEY:-}
+      LLM_MODEL: ${LLM_MODEL:-}
+      LLM_ENDPOINT: ${LLM_ENDPOINT:-https://api.openai.com/v1}
+    volumes:
+      - ./results:/app/results
+    restart: "no"
+
+  tests:
+    <<: *app
+    profiles: ["test"]
+    environment:
+      # Tests do not receive the LLM key. Admin access is only for test schemas.
+      TEST_DATABASE_URL: postgresql://salesbench_reader:demo_reader@db:5432/salesbench
+      TEST_DATABASE_ADMIN_URL: postgresql://salesbench_owner:demo_owner@db:5432/salesbench
+    entrypoint: ["python", "-m", "unittest"]
+    command: ["discover", "-s", "tests", "-v"]
+    volumes: []
+
 volumes:
   salesbench_pgdata:

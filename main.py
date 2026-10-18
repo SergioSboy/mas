@@ -58,7 +58,7 @@ def main():
     try:
         db_info=database_info(db)
     except Exception:
-        p.error('PostgreSQL недоступен или учебная схема не готова. Запустите docker compose up -d --wait, затем проверьте DATABASE_URL. Детали подключения в результаты не записываются.')
+        p.error('PostgreSQL недоступен или учебная схема не готова. Запустите docker compose up -d --wait db, затем проверьте DATABASE_URL. Детали подключения в результаты не записываются.')
     tasks=[t for t in TASKS if args.task is None or t['id']==args.task]
     variants=list(RUNNERS) if args.variant=='all' else [args.variant]
     schedule=[(t,v,r+1) for r in range(args.repeat) for t in tasks for v in variants]

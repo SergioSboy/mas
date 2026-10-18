@@ -1,0 +1,12 @@
+# Only application source, dependency list and tests enter the build context.
+**
+!Dockerfile
+!requirements.txt
+!main.py
+!init_db.py
+!salesbench/
+!salesbench/**
+!tests/
+!tests/**
+**/__pycache__/
+**/*.py[cod]
