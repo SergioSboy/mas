@@ -6,6 +6,7 @@ import json
 import os
 import random
 from pathlib import Path
+from salesbench.config import load_environment
 from salesbench.architectures import RUNNERS
 from salesbench.backend import Backend
 from salesbench.data import TASKS
@@ -37,6 +38,7 @@ def parser():
 
 
 def main():
+    load_environment()
     p=parser()
     args=p.parse_args()
     for field in ['repeat','max_calls','max_tokens','max_output_tokens','max_seconds','max_attempts']:
@@ -58,7 +60,7 @@ def main():
     try:
         db_info=database_info(db)
     except Exception:
-        p.error('PostgreSQL недоступен или учебная схема не готова. Запустите docker compose up -d --wait db, затем проверьте DATABASE_URL. Детали подключения в результаты не записываются.')
+        p.error('PostgreSQL недоступен или учебная схема не готова. Проверьте DATABASE_URL в .env и запущенный PostgreSQL. Для Docker: docker compose up -d --wait db. Для локальной установки: раздел README «Без Docker». Детали подключения в результаты не записываются.')
     tasks=[t for t in TASKS if args.task is None or t['id']==args.task]
     variants=list(RUNNERS) if args.variant=='all' else [args.variant]
     schedule=[(t,v,r+1) for r in range(args.repeat) for t in tasks for v in variants]

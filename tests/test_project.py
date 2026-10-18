@@ -7,6 +7,7 @@ import psycopg
 from psycopg import sql
 import unittest
 from unittest.mock import patch
+from salesbench.config import load_environment
 from main import parser
 from salesbench.architectures import RUNNERS
 from salesbench.backend import Backend,BudgetExceeded
@@ -19,8 +20,9 @@ from salesbench.tools import query,make_report
 class ProjectTests(unittest.TestCase):
     @classmethod
     def setUpClass(cls):
-        cls.admin=os.getenv('TEST_DATABASE_ADMIN_URL',DEFAULT_ADMIN_URL)
-        cls.reader=os.getenv('TEST_DATABASE_URL',DEFAULT_READER_URL)
+        load_environment()
+        cls.admin=os.getenv('TEST_DATABASE_ADMIN_URL',os.getenv('DATABASE_ADMIN_URL',DEFAULT_ADMIN_URL))
+        cls.reader=os.getenv('TEST_DATABASE_URL',os.getenv('DATABASE_URL',DEFAULT_READER_URL))
         cls.schema='salesbench_test_'+uuid.uuid4().hex[:12]
         create_database(cls.admin,schema=cls.schema)
         cls.db=Database(cls.reader,cls.schema)

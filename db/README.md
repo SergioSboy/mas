@@ -13,3 +13,5 @@ docker compose run --rm --no-deps --entrypoint python app -c "from salesbench.da
 Роль владельца создаёт схему и данные. Агенты используют только `salesbench_reader`. Они не получают строку подключения в промптах, а отчёт хранит только тип и версию PostgreSQL, имя схемы и количество записей.
 
 Справка: [транзакции READ ONLY и statement_timeout PostgreSQL](https://www.postgresql.org/docs/current/runtime-config-client.html), [подключения psycopg 3](https://www.psycopg.org/psycopg3/docs/basic/usage.html).
+
+Для полностью локального PostgreSQL используйте `scripts/setup_local.sql`, затем `init_db.py` по разделу README «Без Docker». Скрипт локальной настройки находится вне `db/`, чтобы Docker не выполнял его повторно во время инициализации.
