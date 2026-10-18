@@ -1,0 +1,1615 @@
+<!doctype html><html lang="ru"><meta charset="utf-8"><meta name="viewport" content="width=device-width"><title>SQL Agents: результаты</title><style>body{font:17px system-ui;margin:40px auto;max-width:1150px;padding:0 24px;color:#172b3a;background:#f7f8fa}h1{font-size:36px}h2{margin-top:36px}table{border-collapse:collapse;width:100%;background:white}td,th{text-align:left;padding:14px;border-bottom:1px solid #ddd}th{background:#172b3a;color:white}details{padding:16px 0;border-bottom:1px solid #bbb}summary{cursor:pointer;font-weight:600}pre{white-space:pre-wrap;word-break:break-word;font-size:13px}svg{max-width:700px;background:white}aside{background:#fff1ce;padding:20px}a{color:#086f86}.ok{color:#13784b}.bad{color:#ad3b29}</style><h1>SQL Agents: PostgreSQL</h1><aside>ДЕМО: запрограммированные ответы, LLM не вызывалась. Числа успеха проверяют сценарий и инструменты. Они не доказывают преимущество MAS. Время относится только к локальному выполнению.</aside><p>Автоматическая оценка: итоговая таблица совпадает с эталоном, тип графика верен, сводка содержит проверяемое числовое утверждение. Смысл текста дополнительно проверяет человек.</p><table><tr><th>Вариант</th><th>Сразу</th><th>Итог</th><th>Среднее, мс</th><th>Вызовы</th><th>Токены in / out</th><th>Стоимость, $</th></tr><tr><td>Workflow</td><td>5/6</td><td>5/6</td><td>1.86</td><td>0</td><td>0 / 0</td><td>0.0</td></tr><tr><td>Одиночный агент</td><td>4/6</td><td>5/6</td><td>2.61</td><td>13</td><td>0 / 0</td><td>0.0</td></tr><tr><td>MAS</td><td>4/6</td><td>6/6</td><td>2.90</td><td>30</td><td>0 / 0</td><td>0.0</td></tr></table><h2>Подготовленные случаи</h2><p>Раскройте T3, чтобы увидеть исправление неизвестного столбца. T5 показывает пропущенный фильтр статуса, T6 — границу шаблонного workflow.</p><details><summary>Одиночный агент · T5 · Покажи общую выручку только завершённых заказов. · провал</summary><p>Наибольшее значение: Всего = 17495.000. Число групп: 1.</p><pre>SELECT &#x27;Всего&#x27; AS label, SUM(total) AS value FROM orders</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Всего</td><td>17495.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">17495.000</text><text x="70.0" y="245" font-size="13">Всего</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT &#x27;Всего&#x27; AS label, SUM(total) AS value FROM orders&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 17495.0
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;report&quot;,
+    &quot;report&quot;: {
+      &quot;summary&quot;: &quot;Наибольшее значение: Всего = 17495.000. Число групп: 1.&quot;,
+      &quot;claim&quot;: {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 17495.0
+      },
+      &quot;chart&quot;: &quot;bar&quot;,
+      &quot;statistics&quot;: {
+        &quot;count&quot;: 1,
+        &quot;sum&quot;: 17495.0,
+        &quot;mean&quot;: 17495.0,
+        &quot;minimum&quot;: 17495.0,
+        &quot;maximum&quot;: 17495.0,
+        &quot;leader&quot;: {
+          &quot;label&quot;: &quot;Всего&quot;,
+          &quot;value&quot;: 17495.0
+        }
+      }
+    }
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: false,
+    &quot;table_correct&quot;: false,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: false,
+    &quot;table_correct&quot;: false,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 2,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0023799999617040157
+  }
+}</pre></details><details><summary>Workflow · T5 · Покажи общую выручку только завершённых заказов. · успех</summary><p>Максимум: Всего = 15260.000.</p><pre>SELECT &#x27;Всего&#x27; AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27;</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Всего</td><td>15260.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">15260.000</text><text x="70.0" y="245" font-size="13">Всего</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT &#x27;Всего&#x27; AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27;&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 0,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0021003338042646646
+  }
+}</pre></details><details><summary>Одиночный агент · T2 · Покажи выручку по категориям товаров завершённых заказов. · успех</summary><p>Наибольшее значение: Книги = 6275.000. Число групп: 3.</p><pre>SELECT i.category AS label, SUM(i.quantity*i.price) AS value FROM items i JOIN orders o ON o.id=i.order_id WHERE o.status=&#x27;completed&#x27; GROUP BY i.category</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Аксессуары</td><td>2710.000000</td></tr><tr><td>Книги</td><td>6275.000000</td></tr><tr><td>Техника</td><td>6275.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="150.9003984063745" width="75" height="69.0996015936255" fill="#147D92"/><text x="70.0" y="140.9003984063745" font-size="14">2710.000</text><text x="70.0" y="245" font-size="13">Аксессуары</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">6275.000</text><text x="256.66666666666663" y="245" font-size="13">Книги</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">6275.000</text><text x="443.3333333333333" y="245" font-size="13">Техника</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT i.category AS label, SUM(i.quantity*i.price) AS value FROM items i JOIN orders o ON o.id=i.order_id WHERE o.status=&#x27;completed&#x27; GROUP BY i.category&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;report&quot;,
+    &quot;report&quot;: {
+      &quot;summary&quot;: &quot;Наибольшее значение: Книги = 6275.000. Число групп: 3.&quot;,
+      &quot;claim&quot;: {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      &quot;chart&quot;: &quot;bar&quot;,
+      &quot;statistics&quot;: {
+        &quot;count&quot;: 3,
+        &quot;sum&quot;: 15260.0,
+        &quot;mean&quot;: 5086.666666666667,
+        &quot;minimum&quot;: 2710.0,
+        &quot;maximum&quot;: 6275.0,
+        &quot;leader&quot;: {
+          &quot;label&quot;: &quot;Книги&quot;,
+          &quot;value&quot;: 6275.0
+        }
+      }
+    }
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 2,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0022059581242501736
+  }
+}</pre></details><details><summary>Workflow · T4 · Посчитай уникальных покупателей с завершёнными заказами по регионам. · успех</summary><p>Максимум: Казань = 2.000.</p><pre>SELECT c.region AS label, COUNT(DISTINCT o.customer_id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>2.000000</td></tr><tr><td>Москва</td><td>2.000000</td></tr><tr><td>Тула</td><td>2.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">2.000</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">2.000</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">2.000</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, COUNT(DISTINCT o.customer_id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 0,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.002108875196427107
+  }
+}</pre></details><details><summary>MAS · T2 · Покажи выручку по категориям товаров завершённых заказов. · успех</summary><p>Наибольшее значение: Книги = 6275.000. Число групп: 3.</p><pre>SELECT i.category AS label, SUM(i.quantity*i.price) AS value FROM items i JOIN orders o ON o.id=i.order_id WHERE o.status=&#x27;completed&#x27; GROUP BY i.category</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Аксессуары</td><td>2710.000000</td></tr><tr><td>Книги</td><td>6275.000000</td></tr><tr><td>Техника</td><td>6275.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="150.9003984063745" width="75" height="69.0996015936255" fill="#147D92"/><text x="70.0" y="140.9003984063745" font-size="14">2710.000</text><text x="70.0" y="245" font-size="13">Аксессуары</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">6275.000</text><text x="256.66666666666663" y="245" font-size="13">Книги</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">6275.000</text><text x="443.3333333333333" y="245" font-size="13">Техника</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT i.category AS label, SUM(i.quantity*i.price) AS value FROM items i JOIN orders o ON o.id=i.order_id WHERE o.status=&#x27;completed&#x27; GROUP BY i.category&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;verification&quot;,
+    &quot;ok&quot;: true,
+    &quot;target&quot;: &quot;SQL&quot;,
+    &quot;reason&quot;: &quot;Проверка демонстрационного правила пройдена&quot;
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 4,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.002298584207892418
+  }
+}</pre></details><details><summary>Одиночный агент · T3 · Найди средний чек завершённых заказов по регионам. · успех</summary><p>Наибольшее значение: Казань = 513.571. Число групп: 3.</p><pre>SELECT c.region AS label, AVG(o.total) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>513.571429</td></tr><tr><td>Москва</td><td>357.857143</td></tr><tr><td>Тула</td><td>218.571429</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">513.571</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="108.51182197496524" width="75" height="111.48817802503476" fill="#147D92"/><text x="256.66666666666663" y="98.51182197496524" font-size="14">357.857</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="151.90542420027816" width="75" height="68.09457579972184" fill="#147D92"/><text x="443.3333333333333" y="141.90542420027816" font-size="14">218.571</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[
+  {
+    &quot;role&quot;: &quot;Single.SQL&quot;,
+    &quot;message&quot;: &quot;column o.amount does not exist\nLINE 1: SELECT * FROM (SELECT c.region AS label, AVG(o.amount) AS va...\n                                                     ^&quot;
+  }
+]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;error&quot;,
+    &quot;role&quot;: &quot;Single.SQL&quot;,
+    &quot;message&quot;: &quot;column o.amount does not exist\nLINE 1: SELECT * FROM (SELECT c.region AS label, AVG(o.amount) AS va...\n                                                     ^&quot;
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, AVG(o.total) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;report&quot;,
+    &quot;report&quot;: {
+      &quot;summary&quot;: &quot;Наибольшее значение: Казань = 513.571. Число групп: 3.&quot;,
+      &quot;claim&quot;: {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      &quot;chart&quot;: &quot;bar&quot;,
+      &quot;statistics&quot;: {
+        &quot;count&quot;: 3,
+        &quot;sum&quot;: 1090.0,
+        &quot;mean&quot;: 363.3333333333333,
+        &quot;minimum&quot;: 218.57142857142858,
+        &quot;maximum&quot;: 513.5714285714286,
+        &quot;leader&quot;: {
+          &quot;label&quot;: &quot;Казань&quot;,
+          &quot;value&quot;: 513.5714285714286
+        }
+      }
+    }
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: false,
+    &quot;table_correct&quot;: false,
+    &quot;chart_correct&quot;: false,
+    &quot;report_present&quot;: false,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 3,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.004111750051379204
+  }
+}</pre></details><details><summary>Одиночный агент · T6 · Покажи долю возвратов завершённых заказов по регионам. Не считай один заказ дважды. · успех</summary><p>Наибольшее значение: Москва = 0.214. Число групп: 3.</p><pre>SELECT c.region AS label, 1.0*COUNT(DISTINCT CASE WHEN r.order_id IS NOT NULL THEN o.id END)/COUNT(DISTINCT o.id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id LEFT JOIN returns r ON r.order_id=o.id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>0.142857</td></tr><tr><td>Москва</td><td>0.214286</td></tr><tr><td>Тула</td><td>0.214286</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="113.33333333333334" width="75" height="106.66666666666666" fill="#147D92"/><text x="70.0" y="103.33333333333334" font-size="14">0.143</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">0.214</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">0.214</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, 1.0*COUNT(DISTINCT CASE WHEN r.order_id IS NOT NULL THEN o.id END)/COUNT(DISTINCT o.id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id LEFT JOIN returns r ON r.order_id=o.id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;report&quot;,
+    &quot;report&quot;: {
+      &quot;summary&quot;: &quot;Наибольшее значение: Москва = 0.214. Число групп: 3.&quot;,
+      &quot;claim&quot;: {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      &quot;chart&quot;: &quot;bar&quot;,
+      &quot;statistics&quot;: {
+        &quot;count&quot;: 3,
+        &quot;sum&quot;: 0.5714285714285714,
+        &quot;mean&quot;: 0.19047619047619047,
+        &quot;minimum&quot;: 0.14285714285714285,
+        &quot;maximum&quot;: 0.21428571428571427,
+        &quot;leader&quot;: {
+          &quot;label&quot;: &quot;Москва&quot;,
+          &quot;value&quot;: 0.21428571428571427
+        }
+      }
+    }
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 2,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.002047582995146513
+  }
+}</pre></details><details><summary>Workflow · T3 · Найди средний чек завершённых заказов по регионам. · успех</summary><p>Максимум: Казань = 513.571.</p><pre>SELECT c.region AS label, AVG(o.total) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>513.571429</td></tr><tr><td>Москва</td><td>357.857143</td></tr><tr><td>Тула</td><td>218.571429</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">513.571</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="108.51182197496524" width="75" height="111.48817802503476" fill="#147D92"/><text x="256.66666666666663" y="98.51182197496524" font-size="14">357.857</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="151.90542420027816" width="75" height="68.09457579972184" fill="#147D92"/><text x="443.3333333333333" y="141.90542420027816" font-size="14">218.571</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, AVG(o.total) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 0,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0017781248316168785
+  }
+}</pre></details><details><summary>Одиночный агент · T4 · Посчитай уникальных покупателей с завершёнными заказами по регионам. · успех</summary><p>Наибольшее значение: Казань = 2.000. Число групп: 3.</p><pre>SELECT c.region AS label, COUNT(DISTINCT o.customer_id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>2.000000</td></tr><tr><td>Москва</td><td>2.000000</td></tr><tr><td>Тула</td><td>2.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">2.000</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">2.000</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">2.000</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, COUNT(DISTINCT o.customer_id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;report&quot;,
+    &quot;report&quot;: {
+      &quot;summary&quot;: &quot;Наибольшее значение: Казань = 2.000. Число групп: 3.&quot;,
+      &quot;claim&quot;: {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      &quot;chart&quot;: &quot;bar&quot;,
+      &quot;statistics&quot;: {
+        &quot;count&quot;: 3,
+        &quot;sum&quot;: 6,
+        &quot;mean&quot;: 2.0,
+        &quot;minimum&quot;: 2,
+        &quot;maximum&quot;: 2,
+        &quot;leader&quot;: {
+          &quot;label&quot;: &quot;Казань&quot;,
+          &quot;value&quot;: 2
+        }
+      }
+    }
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 2,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0019139579962939024
+  }
+}</pre></details><details><summary>Workflow · T6 · Покажи долю возвратов завершённых заказов по регионам. Не считай один заказ дважды. · провал</summary><p>Отчёт не сформирован</p><pre></pre><h3>Ошибки и переделки</h3><pre>[
+  {
+    &quot;role&quot;: &quot;Workflow&quot;,
+    &quot;message&quot;: &quot;Шаблон с возвратами отсутствует в базовом workflow&quot;
+  }
+]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;error&quot;,
+    &quot;role&quot;: &quot;Workflow&quot;,
+    &quot;message&quot;: &quot;Шаблон с возвратами отсутствует в базовом workflow&quot;
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: false,
+    &quot;table_correct&quot;: false,
+    &quot;chart_correct&quot;: false,
+    &quot;report_present&quot;: false,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: false,
+    &quot;table_correct&quot;: false,
+    &quot;chart_correct&quot;: false,
+    &quot;report_present&quot;: false,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 0,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 1.933402381837368e-05
+  }
+}</pre></details><details><summary>Одиночный агент · T1 · Покажи выручку завершённых заказов по месяцам. · успех</summary><p>Наибольшее значение: 2026-02 = 5405.000. Число групп: 3.</p><pre>SELECT to_char(date,&#x27;YYYY-MM&#x27;) AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27; GROUP BY label</pre><table><tr><th>label</th><th>value</th></tr><tr><td>2026-01</td><td>4740.000000</td></tr><tr><td>2026-02</td><td>5405.000000</td></tr><tr><td>2026-03</td><td>5115.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><circle cx="70.0" cy="79.68547641073081" r="5" fill="#147D92"/><text x="70.0" y="69.68547641073081" font-size="14">4740.000</text><text x="70.0" y="245" font-size="13">2026-01</text><circle cx="256.66666666666663" cy="60.0" r="5" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">5405.000</text><text x="256.66666666666663" y="245" font-size="13">2026-02</text><circle cx="443.3333333333333" cy="68.58464384828861" r="5" fill="#147D92"/><text x="443.3333333333333" y="58.58464384828861" font-size="14">5115.000</text><text x="443.3333333333333" y="245" font-size="13">2026-03</text><polyline points="70.0,79.68547641073081 256.66666666666663,60.0 443.3333333333333,68.58464384828861" fill="none" stroke="#147D92" stroke-width="3"/></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT to_char(date,&#x27;YYYY-MM&#x27;) AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27; GROUP BY label&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;report&quot;,
+    &quot;report&quot;: {
+      &quot;summary&quot;: &quot;Наибольшее значение: 2026-02 = 5405.000. Число групп: 3.&quot;,
+      &quot;claim&quot;: {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      &quot;chart&quot;: &quot;line&quot;,
+      &quot;statistics&quot;: {
+        &quot;count&quot;: 3,
+        &quot;sum&quot;: 15260.0,
+        &quot;mean&quot;: 5086.666666666667,
+        &quot;minimum&quot;: 4740.0,
+        &quot;maximum&quot;: 5405.0,
+        &quot;leader&quot;: {
+          &quot;label&quot;: &quot;2026-02&quot;,
+          &quot;value&quot;: 5405.0
+        }
+      }
+    }
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 2,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0030167908407747746
+  }
+}</pre></details><details><summary>MAS · T4 · Посчитай уникальных покупателей с завершёнными заказами по регионам. · успех</summary><p>Наибольшее значение: Казань = 2.000. Число групп: 3.</p><pre>SELECT c.region AS label, COUNT(DISTINCT o.customer_id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>2.000000</td></tr><tr><td>Москва</td><td>2.000000</td></tr><tr><td>Тула</td><td>2.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">2.000</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">2.000</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">2.000</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, COUNT(DISTINCT o.customer_id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;verification&quot;,
+    &quot;ok&quot;: true,
+    &quot;target&quot;: &quot;SQL&quot;,
+    &quot;reason&quot;: &quot;Проверка демонстрационного правила пройдена&quot;
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 2
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 2
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 4,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0019573750905692577
+  }
+}</pre></details><details><summary>MAS · T1 · Покажи выручку завершённых заказов по месяцам. · успех</summary><p>Наибольшее значение: 2026-02 = 5405.000. Число групп: 3.</p><pre>SELECT to_char(date,&#x27;YYYY-MM&#x27;) AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27; GROUP BY label</pre><table><tr><th>label</th><th>value</th></tr><tr><td>2026-01</td><td>4740.000000</td></tr><tr><td>2026-02</td><td>5405.000000</td></tr><tr><td>2026-03</td><td>5115.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><circle cx="70.0" cy="79.68547641073081" r="5" fill="#147D92"/><text x="70.0" y="69.68547641073081" font-size="14">4740.000</text><text x="70.0" y="245" font-size="13">2026-01</text><circle cx="256.66666666666663" cy="60.0" r="5" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">5405.000</text><text x="256.66666666666663" y="245" font-size="13">2026-02</text><circle cx="443.3333333333333" cy="68.58464384828861" r="5" fill="#147D92"/><text x="443.3333333333333" y="58.58464384828861" font-size="14">5115.000</text><text x="443.3333333333333" y="245" font-size="13">2026-03</text><polyline points="70.0,79.68547641073081 256.66666666666663,60.0 443.3333333333333,68.58464384828861" fill="none" stroke="#147D92" stroke-width="3"/></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT to_char(date,&#x27;YYYY-MM&#x27;) AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27; GROUP BY label&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;verification&quot;,
+    &quot;ok&quot;: true,
+    &quot;target&quot;: &quot;SQL&quot;,
+    &quot;reason&quot;: &quot;Проверка демонстрационного правила пройдена&quot;
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 4,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0031125410459935665
+  }
+}</pre></details><details><summary>MAS · T5 · Покажи общую выручку только завершённых заказов. · успех</summary><p>Наибольшее значение: Всего = 15260.000. Число групп: 1.</p><pre>SELECT &#x27;Всего&#x27; AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27;</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Всего</td><td>15260.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">15260.000</text><text x="70.0" y="245" font-size="13">Всего</text></svg><h3>Ошибки и переделки</h3><pre>[
+  {
+    &quot;role&quot;: &quot;Critic&quot;,
+    &quot;message&quot;: &quot;Нет фильтра завершённых заказов, в выручку попали отмены&quot;
+  }
+]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT &#x27;Всего&#x27; AS label, SUM(total) AS value FROM orders&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 17495.0
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;verification&quot;,
+    &quot;ok&quot;: false,
+    &quot;target&quot;: &quot;SQL&quot;,
+    &quot;reason&quot;: &quot;Нет фильтра завершённых заказов, в выручку попали отмены&quot;
+  },
+  {
+    &quot;event&quot;: &quot;error&quot;,
+    &quot;role&quot;: &quot;Critic&quot;,
+    &quot;message&quot;: &quot;Нет фильтра завершённых заказов, в выручку попали отмены&quot;
+  },
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT &#x27;Всего&#x27; AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27;&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;verification&quot;,
+    &quot;ok&quot;: true,
+    &quot;target&quot;: &quot;SQL&quot;,
+    &quot;reason&quot;: &quot;Проверка демонстрационного правила пройдена&quot;
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: false,
+    &quot;table_correct&quot;: false,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Всего&quot;,
+        &quot;value&quot;: 15260.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 8,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0035191660281270742
+  }
+}</pre></details><details><summary>MAS · T6 · Покажи долю возвратов завершённых заказов по регионам. Не считай один заказ дважды. · успех</summary><p>Наибольшее значение: Москва = 0.214. Число групп: 3.</p><pre>SELECT c.region AS label, 1.0*COUNT(DISTINCT CASE WHEN r.order_id IS NOT NULL THEN o.id END)/COUNT(DISTINCT o.id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id LEFT JOIN returns r ON r.order_id=o.id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>0.142857</td></tr><tr><td>Москва</td><td>0.214286</td></tr><tr><td>Тула</td><td>0.214286</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="113.33333333333334" width="75" height="106.66666666666666" fill="#147D92"/><text x="70.0" y="103.33333333333334" font-size="14">0.143</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">0.214</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">0.214</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, 1.0*COUNT(DISTINCT CASE WHEN r.order_id IS NOT NULL THEN o.id END)/COUNT(DISTINCT o.id) AS value FROM orders o JOIN customers c ON c.id=o.customer_id LEFT JOIN returns r ON r.order_id=o.id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;verification&quot;,
+    &quot;ok&quot;: true,
+    &quot;target&quot;: &quot;SQL&quot;,
+    &quot;reason&quot;: &quot;Проверка демонстрационного правила пройдена&quot;
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 0.14285714285714285
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 0.21428571428571427
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 4,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0025088749825954437
+  }
+}</pre></details><details><summary>MAS · T3 · Найди средний чек завершённых заказов по регионам. · успех</summary><p>Наибольшее значение: Казань = 513.571. Число групп: 3.</p><pre>SELECT c.region AS label, AVG(o.total) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Казань</td><td>513.571429</td></tr><tr><td>Москва</td><td>357.857143</td></tr><tr><td>Тула</td><td>218.571429</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="70.0" y="50.0" font-size="14">513.571</text><text x="70.0" y="245" font-size="13">Казань</text><rect x="256.66666666666663" y="108.51182197496524" width="75" height="111.48817802503476" fill="#147D92"/><text x="256.66666666666663" y="98.51182197496524" font-size="14">357.857</text><text x="256.66666666666663" y="245" font-size="13">Москва</text><rect x="443.3333333333333" y="151.90542420027816" width="75" height="68.09457579972184" fill="#147D92"/><text x="443.3333333333333" y="141.90542420027816" font-size="14">218.571</text><text x="443.3333333333333" y="245" font-size="13">Тула</text></svg><h3>Ошибки и переделки</h3><pre>[
+  {
+    &quot;role&quot;: &quot;MAS&quot;,
+    &quot;message&quot;: &quot;column o.amount does not exist\nLINE 1: SELECT * FROM (SELECT c.region AS label, AVG(o.amount) AS va...\n                                                     ^&quot;
+  }
+]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;error&quot;,
+    &quot;role&quot;: &quot;MAS&quot;,
+    &quot;message&quot;: &quot;column o.amount does not exist\nLINE 1: SELECT * FROM (SELECT c.region AS label, AVG(o.amount) AS va...\n                                                     ^&quot;
+  },
+  {
+    &quot;event&quot;: &quot;plan&quot;,
+    &quot;plan&quot;: {
+      &quot;subquestions&quot;: [
+        &quot;Определить фильтры и группировку&quot;,
+        &quot;Выполнить SQL&quot;,
+        &quot;Сформировать и проверить отчёт&quot;
+      ],
+      &quot;steps&quot;: [
+        {
+          &quot;role&quot;: &quot;SQL&quot;,
+          &quot;instruction&quot;: &quot;Верни итоговую таблицу с учётом ошибок&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Analyst&quot;,
+          &quot;instruction&quot;: &quot;Посчитай статистику и выбери график&quot;
+        },
+        {
+          &quot;role&quot;: &quot;Critic&quot;,
+          &quot;instruction&quot;: &quot;Проверь правила учёта продаж&quot;
+        }
+      ]
+    }
+  },
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT c.region AS label, AVG(o.total) AS value FROM orders o JOIN customers c ON c.id=o.customer_id WHERE o.status=&#x27;completed&#x27; GROUP BY c.region&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  {
+    &quot;event&quot;: &quot;verification&quot;,
+    &quot;ok&quot;: true,
+    &quot;target&quot;: &quot;SQL&quot;,
+    &quot;reason&quot;: &quot;Проверка демонстрационного правила пройдена&quot;
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: false,
+    &quot;table_correct&quot;: false,
+    &quot;chart_correct&quot;: false,
+    &quot;report_present&quot;: false,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Казань&quot;,
+        &quot;value&quot;: 513.5714285714286
+      },
+      {
+        &quot;label&quot;: &quot;Москва&quot;,
+        &quot;value&quot;: 357.85714285714283
+      },
+      {
+        &quot;label&quot;: &quot;Тула&quot;,
+        &quot;value&quot;: 218.57142857142858
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 6,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.004018208011984825
+  }
+}</pre></details><details><summary>Workflow · T1 · Покажи выручку завершённых заказов по месяцам. · успех</summary><p>Максимум: 2026-02 = 5405.000.</p><pre>SELECT to_char(date,&#x27;YYYY-MM&#x27;) AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27; GROUP BY label</pre><table><tr><th>label</th><th>value</th></tr><tr><td>2026-01</td><td>4740.000000</td></tr><tr><td>2026-02</td><td>5405.000000</td></tr><tr><td>2026-03</td><td>5115.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><circle cx="70.0" cy="79.68547641073081" r="5" fill="#147D92"/><text x="70.0" y="69.68547641073081" font-size="14">4740.000</text><text x="70.0" y="245" font-size="13">2026-01</text><circle cx="256.66666666666663" cy="60.0" r="5" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">5405.000</text><text x="256.66666666666663" y="245" font-size="13">2026-02</text><circle cx="443.3333333333333" cy="68.58464384828861" r="5" fill="#147D92"/><text x="443.3333333333333" y="58.58464384828861" font-size="14">5115.000</text><text x="443.3333333333333" y="245" font-size="13">2026-03</text><polyline points="70.0,79.68547641073081 256.66666666666663,60.0 443.3333333333333,68.58464384828861" fill="none" stroke="#147D92" stroke-width="3"/></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT to_char(date,&#x27;YYYY-MM&#x27;) AS label, SUM(total) AS value FROM orders WHERE status=&#x27;completed&#x27; GROUP BY label&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;2026-01&quot;,
+        &quot;value&quot;: 4740.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-02&quot;,
+        &quot;value&quot;: 5405.0
+      },
+      {
+        &quot;label&quot;: &quot;2026-03&quot;,
+        &quot;value&quot;: 5115.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 0,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0031917919404804707
+  }
+}</pre></details><details><summary>Workflow · T2 · Покажи выручку по категориям товаров завершённых заказов. · успех</summary><p>Максимум: Книги = 6275.000.</p><pre>SELECT i.category AS label, SUM(i.quantity*i.price) AS value FROM items i JOIN orders o ON o.id=i.order_id WHERE o.status=&#x27;completed&#x27; GROUP BY i.category</pre><table><tr><th>label</th><th>value</th></tr><tr><td>Аксессуары</td><td>2710.000000</td></tr><tr><td>Книги</td><td>6275.000000</td></tr><tr><td>Техника</td><td>6275.000000</td></tr></table><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 700 270" role="img" aria-label="График результата"><rect x="70.0" y="150.9003984063745" width="75" height="69.0996015936255" fill="#147D92"/><text x="70.0" y="140.9003984063745" font-size="14">2710.000</text><text x="70.0" y="245" font-size="13">Аксессуары</text><rect x="256.66666666666663" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="256.66666666666663" y="50.0" font-size="14">6275.000</text><text x="256.66666666666663" y="245" font-size="13">Книги</text><rect x="443.3333333333333" y="60.0" width="75" height="160.0" fill="#147D92"/><text x="443.3333333333333" y="50.0" font-size="14">6275.000</text><text x="443.3333333333333" y="245" font-size="13">Техника</text></svg><h3>Ошибки и переделки</h3><pre>[]</pre><h3>История чёрной доски</h3><pre>[
+  {
+    &quot;event&quot;: &quot;sql_result&quot;,
+    &quot;sql&quot;: &quot;SELECT i.category AS label, SUM(i.quantity*i.price) AS value FROM items i JOIN orders o ON o.id=i.order_id WHERE o.status=&#x27;completed&#x27; GROUP BY i.category&quot;,
+    &quot;rows&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  }
+]</pre><h3>Оценка и расход</h3><pre>{
+  &quot;first&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  &quot;final&quot;: {
+    &quot;success&quot;: true,
+    &quot;table_correct&quot;: true,
+    &quot;chart_correct&quot;: true,
+    &quot;report_present&quot;: true,
+    &quot;expected&quot;: [
+      {
+        &quot;label&quot;: &quot;Аксессуары&quot;,
+        &quot;value&quot;: 2710.0
+      },
+      {
+        &quot;label&quot;: &quot;Книги&quot;,
+        &quot;value&quot;: 6275.0
+      },
+      {
+        &quot;label&quot;: &quot;Техника&quot;,
+        &quot;value&quot;: 6275.0
+      }
+    ]
+  },
+  &quot;metrics&quot;: {
+    &quot;calls&quot;: 0,
+    &quot;input_tokens&quot;: 0,
+    &quot;output_tokens&quot;: 0,
+    &quot;known_input_tokens&quot;: 0,
+    &quot;known_output_tokens&quot;: 0,
+    &quot;usage_complete&quot;: true,
+    &quot;cost_usd&quot;: 0.0,
+    &quot;seconds&quot;: 0.0019376659765839577
+  }
+}</pre></details><h2>Условия запуска</h2><pre>{
+  &quot;backend&quot;: &quot;demo&quot;,
+  &quot;variant&quot;: &quot;all&quot;,
+  &quot;task&quot;: null,
+  &quot;repeat&quot;: 1,
+  &quot;model&quot;: &quot;&quot;,
+  &quot;endpoint&quot;: &quot;https://api.openai.com/v1&quot;,
+  &quot;max_calls&quot;: 12,
+  &quot;max_tokens&quot;: 16000,
+  &quot;max_output_tokens&quot;: 700,
+  &quot;max_seconds&quot;: 120,
+  &quot;max_attempts&quot;: 2,
+  &quot;input_price&quot;: null,
+  &quot;output_price&quot;: null,
+  &quot;seed&quot;: 42,
+  &quot;out&quot;: &quot;results/postgres_prepared&quot;,
+  &quot;created_utc&quot;: &quot;20261018T161158_683260Z&quot;,
+  &quot;fixture_orders&quot;: 48,
+  &quot;fixture_customers&quot;: 6,
+  &quot;database&quot;: {
+    &quot;engine&quot;: &quot;PostgreSQL&quot;,
+    &quot;version&quot;: &quot;14.17 (Homebrew)&quot;,
+    &quot;schema&quot;: &quot;salesbench&quot;,
+    &quot;orders&quot;: 48,
+    &quot;customers&quot;: 6
+  },
+  &quot;python&quot;: &quot;psycopg 3&quot;,
+  &quot;demo_faults&quot;: &quot;T3: amount вместо total, T5: пропущен status в первой попытке&quot;
+}</pre><p><a href="metrics.csv">Скачать метрики CSV</a> · <a href="results.json">Полные результаты JSON</a></p></html>

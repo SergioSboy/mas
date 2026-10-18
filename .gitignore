@@ -1,0 +1,39 @@
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local credentials (keep only the configuration example)
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# Local build artifacts, database clusters and packaged copies
+.build/
+.chart-data-*/
+node_modules/
+*.zip
+*.sqlite
+*.sqlite3
+*.db
+*.log
+
+# Keep the checked PostgreSQL benchmark, ignore other local runs
+results/*
+!results/postgres_prepared/
+presentation/SQL_Agents_Defense.pptx
+
+# macOS and editor files
+.DS_Store
+.AppleDouble/
+.idea/
+.vscode/
+*~
